@@ -1,2 +1,2 @@
 default:
-	python markov.py
+	python2 markov.py

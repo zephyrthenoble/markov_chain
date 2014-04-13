@@ -3,18 +3,18 @@ from random import choice, randrange
 from collections import defaultdict 
 from pprint import pprint
 import sys
-read_file = "testfinn.txt"
+read_file = "input.txt"
 DEBUG = True
 
 
 def process_string(string):
-    space = ['\n','\r']
-    unwanted = ['_']
+    space = ['\n','\r', '--']
+    unwanted = ['_','"']
     for elem in space:
         string = string.replace(elem, ' ')
     for elem in unwanted:
         string = string.replace(elem, '')
-    return string.strip()
+    return string[:-1].strip()
 if DEBUG:
     def prt(to_print):
         print to_print
@@ -61,7 +61,7 @@ def get_tokens(complete_file):
                 sentences.append(process_string(builder))
                 builder = ""
     builder = process_string(builder)
-    if builder !="":
+    if builder !="": # and builder != '!' and builder != '.' and builder != '?':
         sentences.append(builder)
     return sentences
 
@@ -71,7 +71,7 @@ with open(read_file, 'r') as f:
     text = f.read()
     tokens = get_tokens(text)
 pprint(tokens)
-sys.exit(0)
+
 m = defaultdict(list)
 for token in tokens:
     t = token .split()
@@ -95,7 +95,26 @@ for key, value in sorted(m.items()):
     print key, sorted(value)
     pass
 
+temp = m
 
+x = 0
+constructed = choice(m.keys())
+first, second = constructed.split()
+while '\n' not in constructed and len(constructed) < 200:
+    if len(temp[first + ' ' + second]) <=0:
+        break
+    nextvalue = choice(temp[first+' '+second])
+    del temp[first+' '+second]
+    if nextvalue == 'i':
+        nextvalue = 'i'.capitalize()
+    if nextvalue.strip() == '.' or nextvalue.strip() == '?' or nextvalue.strip() == '!':
+        continue
+    constructed = constructed + ' ' + nextvalue
+    first = second
+    second = nextvalue
+
+constructed = constructed.capitalize().replace('\n','').strip()+'.'
+print constructed
 sys.exit(0)
 
 m = defaultdict(list)
