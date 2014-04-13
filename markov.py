@@ -2,10 +2,19 @@
 from random import choice, randrange
 from collections import defaultdict 
 from pprint import pprint
-import sys
+import sys, getopt
 read_file = "input.txt"
-DEBUG = True
+DEBUG = False
 
+if len(sys.argv) == 2 and sys.argv[1] == "debug":
+    DEBUG = True
+
+if DEBUG:
+    def prt(to_print):
+        print to_print
+else:
+    def prt(to_print):
+        pass
 
 def process_string(string):
     space = ['\n','\r', '--']
@@ -15,12 +24,6 @@ def process_string(string):
     for elem in unwanted:
         string = string.replace(elem, '')
     return string[:-1].strip()
-if DEBUG:
-    def prt(to_print):
-        print to_print
-else:
-    def prt(to_print):
-        pass
 def get_tokens(complete_file):
     #starting sentence
     builder = ""
@@ -65,7 +68,7 @@ def get_tokens(complete_file):
         sentences.append(builder)
     return sentences
 
-
+#get tokens
 tokens = []
 with open(read_file, 'r') as f:
     text = f.read()
@@ -73,11 +76,15 @@ with open(read_file, 'r') as f:
 
 #pprint(tokens)
 #sys.exit(0)
+
+#things that start a sentence, which hopefully gives us better results
 start_tokens = []
+#the dictionary that will contain the tokens and their options
 m = defaultdict(list)
 for token in tokens:
     t = token.split()
     if len(t) < 2: continue
+    #get the first and second words, to create a better matching
     first = t[0]
     second = t[1]
     start_tokens.append(first+' '+second)
@@ -94,9 +101,10 @@ for token in tokens:
         second = t[index]
     m[first + " " + second].append('\n')
 
-#for key, value in sorted(m.items()):
-#    print key, sorted(value)
-#    pass
+if DEBUG:
+    for key, value in sorted(m.items()):
+        print key, sorted(value)
+        pass
 
 #sys.exit(0)
 temp = m
@@ -104,7 +112,6 @@ temp = m
 x = 0
 constructed = choice(start_tokens)
 first, second = constructed.split()
-print first, second
 while '\n' not in constructed and len(constructed) < 200:
     if len(temp[first + ' ' + second]) <=0:
         break
@@ -115,7 +122,6 @@ while '\n' not in constructed and len(constructed) < 200:
     constructed = constructed + ' ' + nextvalue
     first = second
     second = nextvalue
-    print second
 
 constructed = constructed.replace('\n','').strip()+'.'
 print constructed
