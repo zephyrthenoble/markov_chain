@@ -11,7 +11,7 @@ if len(sys.argv) == 2 and sys.argv[1] == "debug":
 
 if DEBUG:
     def prt(to_print):
-        print to_print
+        print(to_print)
 else:
     def prt(to_print):
         pass
@@ -103,7 +103,7 @@ for token in tokens:
 
 if DEBUG:
     for key, value in sorted(m.items()):
-        print key, sorted(value)
+        print(key, sorted(value))
         pass
 
 #sys.exit(0)
@@ -124,5 +124,5 @@ while '\n' not in constructed and len(constructed) < 200:
     second = nextvalue
 
 constructed = constructed.replace('\n','').strip()+'.'
-print constructed
+print(constructed)
 
