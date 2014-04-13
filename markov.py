@@ -104,6 +104,7 @@ temp = m
 x = 0
 constructed = choice(start_tokens)
 first, second = constructed.split()
+print first, second
 while '\n' not in constructed and len(constructed) < 200:
     if len(temp[first + ' ' + second]) <=0:
         break
@@ -114,7 +115,8 @@ while '\n' not in constructed and len(constructed) < 200:
     constructed = constructed + ' ' + nextvalue
     first = second
     second = nextvalue
+    print second
 
-constructed = constructed.capitalize().replace('\n','').strip()+'.'
+constructed = constructed.replace('\n','').strip()+'.'
 print constructed
 
