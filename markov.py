@@ -18,7 +18,7 @@ else:
 
 def process_string(string):
     space = ['\n','\r', '--']
-    unwanted = ['_','"']
+    unwanted = ['_','"','[',']']
     for elem in space:
         string = string.replace(elem, ' ')
     for elem in unwanted:
