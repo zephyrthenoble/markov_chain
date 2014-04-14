@@ -16,6 +16,14 @@ else:
     def prt(to_print):
         pass
 
+def check_periods(builder):
+    check = ["Mr.","Mrs.", "Ms.", " .", "No."]
+
+    for elem in check:
+        if builder.endswith(elem):
+            return True
+    return False
+
 def process_string(string):
     space = ['\n','\r', '--']
     unwanted = ['_','"','[',']']
@@ -31,22 +39,44 @@ def get_tokens(complete_file):
     sentences = []
     #go through each character
     check = False
+    internal_quote = False
     sp = False
+    index = 0
     for c in complete_file:
+        index += 1
         #add it
         builder = builder + c
         #if it is a quote, handle options
-        if c == '"' or c =="'":
+        if c == '"':
             #if it was preceded by a checked sentence-ender, end sentence
             if sp:
-                sentences.append(process_string(builder))
-                builder = ""
+                #check if it was at then end of a quote or not
+                #print "checking"
+                endindex = index+20
+                if index+20 > len(complete_file):
+                    endindex = len(complete_file)
+                #print endindex
+                temp = complete_file[index+1:endindex]
+                #print temp
+                next_word = temp.strip().split()[0]
+                #print next_word
+                if next_word != next_word.lower():
+                    #print "appended"
+                    sp = False
+                    sentences.append(process_string(builder))
+                    builder = ""
             #if it wasn't, it's part of an internal quote, continue
             if check:
                 check = False
             #if it was the first quote, check for the end quote before finishing
             else:
                 check = True
+        #else if c =="'":
+        #    if check:
+        #        if internal_quote:
+        #            internal_quote = False
+        #        else:
+        #            internal_quote = True
         #if we expected a quote to end the quoted sentence, but there isn't one
         #we have the end of a sentence contained in the quote, continue
         else:
@@ -59,7 +89,7 @@ def get_tokens(complete_file):
                 sp = True
             # otherwise you have a sentence
             else:
-                if len(builder) < 5 or builder.endswith("Mr.") or builder.endswith("Mrs.") or builder.endswith("Ms.") or builder.endswith(" ."):
+                if len(builder) < 5 or check_periods(builder):
                     continue
                 sentences.append(process_string(builder))
                 builder = ""
