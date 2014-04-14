@@ -139,6 +139,16 @@ if DEBUG:
 #sys.exit(0)
 temp = m
 
+prt("Removing dud starting elements")
+#remove dud starting tokens
+for elem in start_tokens:
+    if elem[0] == elem[0].lower():
+        prt(sorted(elem))
+        if elem[0] == "'" and len(elem) > 1:
+            if elem[1] != elem[1].lower():
+                continue
+        del elem
+
 x = 0
 constructed = choice(start_tokens)
 first, second = constructed.split()
