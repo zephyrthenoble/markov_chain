@@ -166,6 +166,7 @@ def read_tokens(read_file):
     with open(read_file, 'r') as f:
         text = f.read()
         tokens = get_tokens(text)
+    return tokens
 
 def main():
     tokens = read_tokens(read_file)
