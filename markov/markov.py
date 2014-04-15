@@ -2,6 +2,7 @@
 from random import choice, randrange
 from collections import defaultdict 
 from pprint import pprint
+from os import walk
 import sys, getopt
 read_file = "input.txt"
 DEBUG = False
@@ -15,6 +16,14 @@ if DEBUG:
 else:
     def prt(to_print):
         pass
+
+def read_from_folder(dirname):
+    files = []
+    for (dirpath, dirnames, filenames) in walk(dirname):
+        files.extend(filenames)
+    print files
+
+
 
 def check_periods(builder):
     check = ["Mr.","Mrs.", "Ms.", " .", "No."]
