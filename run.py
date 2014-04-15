@@ -1,12 +1,12 @@
 import sys, getopt
-from markov import markov
+from markov import generator
 DEBUG = False
 
 if len(sys.argv) == 2 and sys.argv[1] == "debug":
     DEBUG = True
 
 def main():
-    print dir(markov)
+    print
     #markov.read_from_folder("corpus")
 
 
