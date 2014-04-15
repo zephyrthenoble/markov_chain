@@ -114,6 +114,8 @@ def remove_duds(start_tokens):
                 if elem[1] != elem[1].lower():
                     continue
             del elem
+    return start_tokens
+
 def create_matching(tokens):
     #things that start a sentence, which hopefully gives us better results
     start_tokens = []
@@ -141,31 +143,9 @@ def create_matching(tokens):
 
     return (start_tokens, m)
 
-def main():
-    #get tokens
-    tokens = []
-    with open(read_file, 'r') as f:
-        text = f.read()
-        tokens = get_tokens(text)
-
-    #pprint(tokens)
-    #sys.exit(0)
-    start_tokens, m = create_matching(tokens)
-
-
-    if DEBUG:
-        for key, value in sorted(m.items()):
-            print(key, sorted(value))
-            pass
-
-    #sys.exit(0)
+def construct_sentences(start_tokens, m):
+    #later, if we want to do this multiple times, we can just keep setting temp to m
     temp = m
-
-    prt("Removing dud starting elements")
-    #remove dud starting tokens
-    remove_duds(start_tokens)
-
-    x = 0
     constructed = choice(start_tokens)
     first, second = constructed.split()
     while '\n' not in constructed and len(constructed) < 200:
@@ -178,8 +158,30 @@ def main():
         constructed = constructed + ' ' + nextvalue
         first = second
         second = nextvalue
-
     constructed = constructed.replace('\n','').strip()+'.'
+    return constructed
+
+def read_tokens(read_file):
+    tokens = []
+    with open(read_file, 'r') as f:
+        text = f.read()
+        tokens = get_tokens(text)
+
+def main():
+    tokens = read_tokens(read_file)
+    start_tokens, m = create_matching(tokens)
+    if DEBUG:
+        for key, value in sorted(m.items()):
+            print(key, sorted(value))
+            pass
+
+    prt("Removing dud starting elements")
+    #remove dud starting tokens
+    start_tokens = remove_duds(start_tokens)
+
+    x = 0
+    constructed = construct_sentences(start_tokens, m)
+
     print(constructed)
 
 if __name__ == "__main__":
