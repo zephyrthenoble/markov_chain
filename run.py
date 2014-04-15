@@ -1,5 +1,5 @@
 import sys, getopt
-import markov
+from markov import markov
 DEBUG = False
 
 if len(sys.argv) == 2 and sys.argv[1] == "debug":

@@ -1,4 +1,6 @@
 default:
-	python2 markov.py
+	python2 run.py
+clean:
+	rm -rf markov/*.pyc
 debug:
-	python2 markov.py debug
+	python2 run.py debug
