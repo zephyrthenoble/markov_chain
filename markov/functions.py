@@ -21,7 +21,7 @@ def read_from_folder(dirname):
     files = []
     for (dirpath, dirnames, filenames) in walk(dirname):
         files.extend(filenames)
-    print files
+    return files
 
 def check_periods(builder):
     check = ["Mr.","Mrs.", "Ms.", " .", "No."]
