@@ -10,42 +10,87 @@ def main():
     gen = Generator()
     gen.read_folder("corpus")
     print(gen.generate_sentences(4))
-    maxkey = gen.m.keys()[0]
-    maxvalue = gen.m[maxkey]
-    for key, value in gen.m.items():
-        if len(value) > 30:
-                del key
-                continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 2\n\n"
-    print maxkey, sorted(maxvalue)
 
 
-    st, ma = create_matching(gen.tokens, 1)
-    maxkey = ma.keys()[0]
+    single, ma1 = create_matching(gen.tokens, 1)
+    maxkey = ma1.keys()[0]
     maxvalue = [""]
-    for key, value in ma.items():
-        if len(value) > 30:
-                del key
+    for key, value in ma1.items():
+        if len(value) > 15 or len(value) < 3:
+                ma1.pop(key, None)
                 continue
         if len(value) > len(maxvalue):
             maxvalue = value
             maxkey = key
     print "=================\nMax for 3\n\n"
     print maxkey, sorted(maxvalue)
+    print len(ma1.keys())
 
-    st, ma = create_matching(gen.tokens, 3)
-    maxkey = ma.keys()[0]
+    ma2 = gen.m
+    maxkey = ma2.keys()[0]
+    maxvalue = ma2[maxkey]
+
+    maxcount = len(ma2.keys())/100
+    count = 0
+    print
+    for key, value in ma2.items():
+        count += 1
+        if count % maxcount == 0:
+            sys.stdout.write ("\r%d%%" %(count / maxcount))
+            sys.stdout.flush()
+        flag = False
+        for okey in ma1.keys():
+            if key.split()[-1].strip() == okey:
+                ma2.pop(key, None)
+                flag = True
+                break
+        if flag: continue
+        if len(value) > 15 or len(value) < 3:
+                ma2.pop(key, None)
+                continue
+        if len(value) > len(maxvalue):
+            maxvalue = value
+            maxkey = key
+    print "=================\nMax for 2\n\n"
+    print maxkey, sorted(maxvalue)
+    print len(ma2.keys())
+    #for key, value in ma2.items():
+    #    print key, value
+
+    st, ma3 = create_matching(gen.tokens, 3)
+    maxkey = ma3.keys()[0]
     maxvalue = [""]
-    for key, value in ma.items():
+    maxcount = len(ma3.keys())/100
+    count = 0
+    for key, value in ma3.items():
+        count += 1
+        if count % maxcount == 0:
+            sys.stdout.write ("\r%d%%" %(count / maxcount))
+            sys.stdout.flush()
+        flag = False
+        for okey in ma1.keys():
+            if key.split()[-1].strip() == okey:
+                ma3.pop(key, None)
+                flag = True
+                break
+        if flag: continue
+        flag = False
+        for okey in ma2.keys():
+            if key.split()[-1].strip() == okey:
+                ma3.pop(key, None)
+                flag = True
+                break
+        if flag: continue
         if len(value) > len(maxvalue):
             maxvalue = value
             maxkey = key
     print "=================\nMax for 1\n\n"
     print maxkey, sorted(maxvalue)
+    print len(ma3.keys())
     #markov.read_from_folder("corpus")
+
+
+
 
 
 if __name__ == "__main__":
