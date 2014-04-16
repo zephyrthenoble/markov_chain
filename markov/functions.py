@@ -116,30 +116,45 @@ def remove_duds(start_tokens):
             del elem
     return start_tokens
 
-def create_matching(tokens):
+def create_matching(tokens, count):
     #things that start a sentence, which hopefully gives us better results
     start_tokens = []
     #the dictionary that will contain the tokens and their options
     m = defaultdict(list)
+
     for token in tokens:
         t = token.split()
-        if len(t) < 2: continue
+        if len(t) < count: continue
         #get the first and second words, to create a better matching
-        first = t[0]
-        second = t[1]
-        start_tokens.append(first+' '+second)
-        for index in range(2, len(t)):
+        state = [t[i] for i in range(0,count)]
+        #first = t[0]
+        #second = t[1]
+        constructed = ""
+        for elem in state:
+            constructed += elem + " "
+        #start_tokens.append(first+' '+second)
+        start_tokens.append(constructed.strip())
+        for index in range(count, len(t)):
             word = t[index]
             while word.endswith('.') or word.endswith('?') or word.endswith('!'):
-                if len(word) < 2:
+                if len(word) < count:
                     break
                 #prt(word)
                 word = word[:-1].strip()
-            m[first +" "+ second].append(word)
+            constructed = ""
+            for elem in state:
+                constructed += elem + " "
+            m[constructed.strip()].append(word)
             #prt(first+second+" "+token[index])
-            first = second
-            second = t[index]
-        m[first + " " + second].append('\n')
+            for i in range(0, len(state)-1):
+                state[i] = state[i+1]
+            state[-1] = word
+            #first = second
+            #second = t[index]
+        constructed = ""
+        for elem in state:
+            constructed += elem + " "
+        m[constructed.strip()].append('\n')
 
     return (start_tokens, m)
 

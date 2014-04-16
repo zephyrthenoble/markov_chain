@@ -20,7 +20,7 @@ class Generator:
         with open(filename) as f:
             temp = get_tokens(f.read())
             self.tokens.extend(temp)
-        tst, tm = create_matching(temp)
+        tst, tm = create_matching(temp, 2)
         self.start_tokens.extend(tst)
         self.m.update(tm)
         self.start_tokens.extend(remove_duds(tst))
