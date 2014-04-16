@@ -1,5 +1,5 @@
 
-import sys, getopt
+import sys, getopt, json
 from markov.functions import create_matching
 from markov.generator import Generator
 from random import choice
@@ -13,14 +13,18 @@ def main():
     gen.read_folder("corpus")
     print(gen.generate_sentences(4))
 
+    json.dump(gen.m, open("dictionaries/m.json", "w"))
+
 
     single, ma1 = create_matching(gen.tokens, 1)
+    json.dump(single, open("dictionaries/single.json", "w"))
+
     maxkey = ma1.keys()[0]
     maxvalue = [""]
     for key, value in ma1.items():
         if len(value) > 15 or len(value) < 3:
-                ma1.pop(key, None)
-                continue
+            ma1.pop(key, None)
+            continue
         if len(value) > len(maxvalue):
             maxvalue = value
             maxkey = key
@@ -89,6 +93,11 @@ def main():
     print "=================\nMax for 1\n\n"
     print maxkey, sorted(maxvalue)
     print len(ma3.keys())
+
+
+    json.dump(ma1, open("dictionaries/ma1.json", "w"))
+    json.dump(ma2, open("dictionaries/ma2.json", "w"))
+    json.dump(ma3, open("dictionaries/ma3.json", "w"))
 
 
 
