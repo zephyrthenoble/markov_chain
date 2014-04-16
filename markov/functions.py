@@ -38,6 +38,7 @@ def process_string(string):
         string = string.replace(elem, ' ')
     for elem in unwanted:
         string = string.replace(elem, '')
+    string = ' '.join(string.split())
     return string[:-1].strip()
 
 def get_tokens(complete_file):
@@ -79,12 +80,6 @@ def get_tokens(complete_file):
             #if it was the first quote, check for the end quote before finishing
             else:
                 check = True
-        #else if c =="'":
-        #    if check:
-        #        if internal_quote:
-        #            internal_quote = False
-        #        else:
-        #            internal_quote = True
         #if we expected a quote to end the quoted sentence, but there isn't one
         #we have the end of a sentence contained in the quote, continue
         else:

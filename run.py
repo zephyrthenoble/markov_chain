@@ -8,6 +8,7 @@ if len(sys.argv) == 2 and sys.argv[1] == "debug":
 def main():
     gen = Generator()
     gen.read_folder("corpus")
+    #gen.perturb_tokens(0.03)
     print(gen.generate_sentences(4))
     #markov.read_from_folder("corpus")
 
