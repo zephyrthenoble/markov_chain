@@ -1,95 +1,35 @@
+
 import sys, getopt
 from markov.functions import create_matching
 from markov.generator import Generator
-DEBUG = False
-
-if len(sys.argv) == 2 and sys.argv[1] == "debug":
-    DEBUG = True
+from random import choice
 
 def main():
-    gen = Generator()
-    gen.read_folder("corpus")
-    print(gen.generate_sentences(4))
-
-
-    single, ma1 = create_matching(gen.tokens, 1)
-    maxkey = ma1.keys()[0]
-    maxvalue = [""]
-    for key, value in ma1.items():
-        if len(value) > 15 or len(value) < 3:
-                ma1.pop(key, None)
-                continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 3\n\n"
-    print maxkey, sorted(maxvalue)
-    print len(ma1.keys())
-
-    ma2 = gen.m
-    maxkey = ma2.keys()[0]
-    maxvalue = ma2[maxkey]
-
-    maxcount = len(ma2.keys())/100
-    count = 0
-    print
-    for key, value in ma2.items():
-        count += 1
-        if count % maxcount == 0:
-            sys.stdout.write ("\r%d%%" %(count / maxcount))
-            sys.stdout.flush()
-        flag = False
-        for okey in ma1.keys():
-            if key.split()[-1].strip() == okey:
-                ma2.pop(key, None)
-                flag = True
-                break
-        if flag: continue
-        if len(value) > 15 or len(value) < 3:
-                ma2.pop(key, None)
-                continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 2\n\n"
-    print maxkey, sorted(maxvalue)
-    print len(ma2.keys())
-    #for key, value in ma2.items():
-    #    print key, value
-
-    st, ma3 = create_matching(gen.tokens, 3)
-    maxkey = ma3.keys()[0]
-    maxvalue = [""]
-    maxcount = len(ma3.keys())/100
-    count = 0
-    for key, value in ma3.items():
-        count += 1
-        if count % maxcount == 0:
-            sys.stdout.write ("\r%d%%" %(count / maxcount))
-            sys.stdout.flush()
-        flag = False
-        for okey in ma1.keys():
-            if key.split()[-1].strip() == okey:
-                ma3.pop(key, None)
-                flag = True
-                break
-        if flag: continue
-        flag = False
-        for okey in ma2.keys():
-            if key.split()[-1].strip() == okey:
-                ma3.pop(key, None)
-                flag = True
-                break
-        if flag: continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 1\n\n"
-    print maxkey, sorted(maxvalue)
-    print len(ma3.keys())
     #markov.read_from_folder("corpus")
 
+    start = choice(single)
+    constructed = start
+    state = ["","",start]
 
+    while state[-1] != '\n':
+        one = state[-1]
+        two = " ".join(state[-2]+state[-1]).strip()
+        three = " ".join(state[-3]+state[-2]+state[-1]).strip()
+        if one in ma1.keys():
+            state.append(one)
+            constructed += " " + ma1[one]
+        elif two in ma2.keys():
+            state.append(two)
+            constructed += " " + ma2[two]
+        elif three in ma3.keys():
+            state.append(three)
+            constructed += " " + ma3[three]
+        else:
+            print "Can't find", three
+            break
+    print start
+    print state
+    print constructed
 
 
 
