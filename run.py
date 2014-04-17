@@ -1,29 +1,53 @@
 
-import sys, getopt, json
+import sys, getopt, pickle
 from markov.functions import create_matching
 from markov.generator import Generator
 from random import choice
+from markov.state import State
+
+
+
 
 def main():
-    #markov.read_from_folder("corpus")
-    ma1 = json.load(open("dictionaries/ma1.json"))
-    ma2 = json.load(open("dictionaries/ma2.json"))
-    ma3 = json.load(open("dictionaries/ma3.json"))
-    single = json.load(open("dictionaries/single.json"))
+    ma1 = pickle.load(open("dictionaries/ma1.pickle", "rb"))
+    ma2 = pickle.load(open("dictionaries/ma2.pickle", "rb"))
+    ma3 = pickle.load(open("dictionaries/ma3.pickle", "rb"))
+    triple = pickle.load(open("dictionaries/triple.pickle", "rb"))
 
-    start = choice(single)
+
+#     print "ma1"
+#     for key, val in ma1.items():
+#         print key, val
+# 
+#     print
+#     print "ma2"
+#     for key, val in ma2.items():
+#         print key, val
+# 
+#     print
+#     print "ma3"
+#     for key, val in ma3.items():
+#         print key, val
+# 
+    start = choice(triple)
     constructed = start
-    state = ["","",start]
+    state = State()
+    for elem in start.split():
+        state.add(elem.strip())
     print start
     print constructed
     print state
-    print
 
-    while state[-1] != '\n':
+
+
+
+    sys.exit(0)
+
+    while !(state.finished):
         word = ""
-        one = state[-1]
-        two = " ".join(state[-2]+state[-1]).strip()
-        three = " ".join(state[-3]+state[-2]+state[-1]).strip()
+        one = state.get(1)
+        two = state.get(2)
+        three = state.get(3)
         print constructed
         print state
         print
@@ -51,6 +75,7 @@ def main():
                 print "Can't find", three
                 break
         state.append(word)
+        state.pop(0)
         constructed += " " + word
     print start
     print state

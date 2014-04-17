@@ -1,5 +1,5 @@
 
-import sys, getopt, json
+import sys, getopt, pickle
 from markov.functions import create_matching
 from markov.generator import Generator
 from random import choice
@@ -10,14 +10,15 @@ if len(sys.argv) == 2 and sys.argv[1] == "debug":
 
 def main():
     gen = Generator()
-    gen.read_folder("corpus")
+    #gen.read_folder("corpus")
+    gen.read("corpus/shortpeterpan.txt")
     print(gen.generate_sentences(4))
 
-    json.dump(gen.m, open("dictionaries/m.json", "w"))
+    pickle.dump(gen.m, open("dictionaries/m.pickle", "wb"))
 
 
     single, ma1 = create_matching(gen.tokens, 1)
-    json.dump(single, open("dictionaries/single.json", "w"))
+    pickle.dump(single, open("dictionaries/single.pickle", "wb"))
 
     maxkey = ma1.keys()[0]
     maxvalue = [""]
@@ -64,6 +65,8 @@ def main():
     #    print key, value
 
     st, ma3 = create_matching(gen.tokens, 3)
+    pickle.dump(st, open("dictionaries/triple.pickle", "wb"))
+
     maxkey = ma3.keys()[0]
     maxvalue = [""]
     maxcount = len(ma3.keys())/100
@@ -95,9 +98,9 @@ def main():
     print len(ma3.keys())
 
 
-    json.dump(ma1, open("dictionaries/ma1.json", "w"))
-    json.dump(ma2, open("dictionaries/ma2.json", "w"))
-    json.dump(ma3, open("dictionaries/ma3.json", "w"))
+    pickle.dump(ma1, open("dictionaries/ma1.pickle", "wb"))
+    pickle.dump(ma2, open("dictionaries/ma2.pickle", "wb"))
+    pickle.dump(ma3, open("dictionaries/ma3.pickle", "wb"))
 
 
 
