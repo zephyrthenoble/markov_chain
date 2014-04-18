@@ -11,7 +11,8 @@ if len(sys.argv) == 2 and sys.argv[1] == "debug":
 def main():
     gen = Generator()
     #gen.read_folder("corpus")
-    gen.read("corpus/shortpeterpan.txt")
+    #gen.read("corpus/shortpeterpan.txt")
+    gen.read("corpus/peterpan.txt")
     print(gen.generate_sentences(4))
 
     pickle.dump(gen.m, open("dictionaries/m.pickle", "wb"))
@@ -23,7 +24,7 @@ def main():
     maxkey = ma1.keys()[0]
     maxvalue = [""]
     for key, value in ma1.items():
-        if len(value) > 15 or len(value) < 3:
+        if len(value) > 15:
             ma1.pop(key, None)
             continue
         if len(value) > len(maxvalue):
