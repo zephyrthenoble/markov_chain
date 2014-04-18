@@ -12,13 +12,14 @@ class State:
         self.state.append(stritem)
         self.state.pop(0)
     def get(self, num):
-        return " ".join(self.state[:-1*num])
+        index = -1*num
+        return " ".join(self.state[index:])
     def reset(self):
         self.state = [None for i in range(0, self.length)]
     def finished(self):
         return self.done
     def get_str(self):
-        return constructed
+        return self.constructed
     def __len__(self):
         count = 0
         for elem in self.state:
@@ -26,4 +27,4 @@ class State:
                 count += 1
         return count
     def __str__(self):
-        return "State: " + str(self.state) + " = " + self.constructed
+        return "State: " + str(self.state) + " = " + self.constructed + "; " + str(self.finished())
