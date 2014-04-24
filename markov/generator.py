@@ -1,6 +1,6 @@
 from functions import *
 from collections import defaultdict
-import io, pickle, logging
+import io, pickle, logging, State
 
 
 class Generator:
