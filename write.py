@@ -13,100 +13,10 @@ def main():
     #gen.read_folder("corpus")
     #gen.read("corpus/shortpeterpan.txt")
     gen.read("corpus/peterpan.txt")
+    gen.perturb_tokens(.01)
     gen.create_ordered_paths()
     gen.save("dictionaries/peterpan.pickle")
     sys.exit(0)
-    #print(gen.generate_sentences(4))
-
-    pickle.dump(gen.m, open("dictionaries/m.pickle", "wb"))
-
-
-    single, ma1 = create_matching(gen.tokens, 1)
-    pickle.dump(single, open("dictionaries/single.pickle", "wb"))
-
-    maxkey = ma1.keys()[0]
-    maxvalue = [""]
-    for key, value in ma1.items():
-        if len(value) > 15:
-            ma1.pop(key, None)
-            continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 3\n\n"
-    print maxkey, sorted(maxvalue)
-    print len(ma1.keys())
-
-    ma2 = gen.m
-    maxkey = ma2.keys()[0]
-    maxvalue = ma2[maxkey]
-
-    maxcount = len(ma2.keys())/100
-    count = 0
-    print
-    for key, value in ma2.items():
-        count += 1
-        if count % maxcount == 0:
-            sys.stdout.write ("\r%d%%" %(count / maxcount))
-            sys.stdout.flush()
-        flag = False
-        for okey in ma1.keys():
-            if key.split()[-1].strip() == okey:
-                ma2.pop(key, None)
-                flag = True
-                break
-        if flag: continue
-        if len(value) > 15 or len(value) < 3:
-                ma2.pop(key, None)
-                continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 2\n\n"
-    print maxkey, sorted(maxvalue)
-    print len(ma2.keys())
-    #for key, value in ma2.items():
-    #    print key, value
-
-    st, ma3 = create_matching(gen.tokens, 3)
-    pickle.dump(st, open("dictionaries/triple.pickle", "wb"))
-
-    maxkey = ma3.keys()[0]
-    maxvalue = [""]
-    maxcount = len(ma3.keys())/100
-    count = 0
-    for key, value in ma3.items():
-        count += 1
-        if count % maxcount == 0:
-            sys.stdout.write ("\r%d%%" %(count / maxcount))
-            sys.stdout.flush()
-        flag = False
-        for okey in ma1.keys():
-            if key.split()[-1].strip() == okey:
-                ma3.pop(key, None)
-                flag = True
-                break
-        if flag: continue
-        flag = False
-        for okey in ma2.keys():
-            if key.split()[-1].strip() == okey:
-                ma3.pop(key, None)
-                flag = True
-                break
-        if flag: continue
-        if len(value) > len(maxvalue):
-            maxvalue = value
-            maxkey = key
-    print "=================\nMax for 1\n\n"
-    print maxkey, sorted(maxvalue)
-    print len(ma3.keys())
-
-
-    pickle.dump(ma1, open("dictionaries/ma1.pickle", "wb"))
-    pickle.dump(ma2, open("dictionaries/ma2.pickle", "wb"))
-    pickle.dump(ma3, open("dictionaries/ma3.pickle", "wb"))
-
-
 
 if __name__ == "__main__":
     main()
