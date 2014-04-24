@@ -116,10 +116,11 @@ class Generator:
         self.prev = []
 
     def generate_sentence(self):
+        #print "generating"
         logging.basicConfig()
 
         logger = logging.getLogger(__name__)
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.CRITICAL)
 
         ma1 = self.ma1
         ma2 = self.ma2
@@ -226,7 +227,7 @@ class Generator:
         logger.info(start)
         logger.info(state.get_str())
 
-        constructed = state.get_str() #construct_sentences(self.start_tokens, self.m)
+        constructed = state.get_str().strip() + "." #construct_sentences(self.start_tokens, self.m)
         self.prev.append(constructed)
         return constructed
 
