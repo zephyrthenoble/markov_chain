@@ -13,7 +13,10 @@ def main():
     #gen.read_folder("corpus")
     #gen.read("corpus/shortpeterpan.txt")
     gen.read("corpus/peterpan.txt")
-    print(gen.generate_sentences(4))
+    gen.create_ordered_paths()
+    gen.save("dictionaries/peterpan.pickle")
+    sys.exit(0)
+    #print(gen.generate_sentences(4))
 
     pickle.dump(gen.m, open("dictionaries/m.pickle", "wb"))
 
