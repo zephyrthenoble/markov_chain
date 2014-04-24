@@ -1,6 +1,7 @@
 from functions import *
 from collections import defaultdict
-import io, pickle, logging, State
+import io, pickle, logging
+from markov.state import State
 
 
 class Generator:

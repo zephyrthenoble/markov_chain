@@ -8,6 +8,12 @@ from markov.state import State
 
 
 def main():
+    
+    gen = Generator.load("dictionaries/peterpan.pickle")
+    gen.generate_sentence()
+
+
+    sys.exit(0)
     logging.basicConfig()
 
     logger = logging.getLogger(__name__)
