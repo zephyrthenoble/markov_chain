@@ -108,8 +108,9 @@ def get_tokens(complete_file):
 
 def remove_duds(start_tokens):
     for elem in start_tokens:
+        #remove elements that don't start with a capital letter
         if elem[0] == elem[0].lower():
-            prt(sorted(elem))
+            #prt(sorted(elem))
             if elem[0] == "'" and len(elem) > 1:
                 if elem[1] != elem[1].lower():
                     continue
