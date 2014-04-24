@@ -114,6 +114,7 @@ class Generator:
         for elem in files:
             self.read(folder+'/'+elem)
         self.create_ordered_paths()
+        self.perturb_tokens(.01)
     
     def read(self, filename):
         temp = []
