@@ -1,1 +1,7 @@
 Coherent sentences and password cracking
+
+Determine functionality of Generator: does it only generate matchings, or should it make sentences?
+    If it generates matchings only, how to we get to generating sentences?
+    If it is both, then how do we get it back?
+        pickle Generator
+        read it back from run
