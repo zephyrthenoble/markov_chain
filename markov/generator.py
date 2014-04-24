@@ -18,6 +18,29 @@ class Generator:
     def load(dest):
         return pickle.load(open(dest, "rb"))
 
+    def perturb_tokens(self, chance):
+        num = (int)(len(self.ma1.keys())*chance)
+        for x in range(0,num):
+            selected_element = choice(choice(self.ma1.values()))
+            append_key = choice(self.ma1.keys())
+            print repr(append_key), repr(selected_element)
+            self.ma1[append_key].append(selected_element)
+
+        num = (int)(len(self.ma2.keys())*chance)
+        for x in range(0,num):
+            selected_element = choice(choice(self.ma2.values()))
+            append_key = choice(self.ma2.keys())
+            print repr(append_key), repr(selected_element)
+            self.ma1[choice(self.ma2.keys())].append(selected_element)
+
+        num = (int)(len(self.ma3.keys())*chance)
+        for x in range(0,num):
+            selected_element = choice(choice(self.ma3.values()))
+            append_key = choice(self.ma3.keys())
+            print repr(append_key), repr(selected_element)
+            self.ma1[choice(self.ma3.keys())].append(selected_element)
+        return
+
     def save(self, dest):
         pickle.dump(self, open(dest, "wb"))
 
