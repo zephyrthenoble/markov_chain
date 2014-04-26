@@ -20,6 +20,7 @@ def main():
     #sys.exit(0)
     while val != "julia":
         count+=1
+        print count
         if count % 1000 == 0:
             print count
             print val

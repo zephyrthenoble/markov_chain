@@ -170,7 +170,7 @@ class Generator:
         logging.basicConfig()
 
         logger = logging.getLogger(__name__)
-        logger.setLevel(logging.CRITICAL)
+        logger.setLevel(logging.DEBUG)
 
         ma1 = self.ma1
         ma2 = self.ma2
@@ -180,6 +180,7 @@ class Generator:
 
         start = choice(triple)
         constructed = start
+        """
         state = State()
         for elem in start.split():
             state.add(elem.strip())
@@ -187,7 +188,11 @@ class Generator:
         one = state.get(1)
         two = state.get(2)
         three = state.get(3)
-
+"""
+        state = State()
+        state.add('y')
+        state.add('2')
+        #only has a "\n", is this intelligent or bad
         logger.debug("logger.debuging dictionaries\n")
         logger.debug("\nma1")
         for key, val in list(ma1.items()):
@@ -208,6 +213,9 @@ class Generator:
 
 
         while state.finished() == False:
+            print state
+            if len(state) > 15:
+                break
             word = ""
             one = state.get(1)
             two = state.get(2)
