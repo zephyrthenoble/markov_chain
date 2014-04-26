@@ -5,10 +5,10 @@ def parse_delim(fname, delim="\n", stripvals = True):
     with open(fname, "r") as f:
         value = f.read()
     tokens = value.split(delim)
-    print "tokens",tokens
     if stripvals:
         for i, val in enumerate(tokens):
             tokens[i] = val.strip()
+    print "tokens",tokens
     return tokens
 
 def parse_text(fname, stripvals = True):
