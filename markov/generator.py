@@ -2,10 +2,19 @@ from functions import *
 from collections import defaultdict
 import io, pickle, logging
 from markov.state import State
+from markov import parser
 
 
+def prose_generator():
+    return Generator(text=True)
+def word_generator(delimit="\n"):
+    return Generator(delim=delimit)
 class Generator:
-    def __init__(self):
+    #defaults to words split by lines
+    def __init__(self, text=False, delim="\n"):
+        self.text = text
+        self.delim = delim
+        self.stripvals = True
         self.m = defaultdict(list)
         self.ma1 = defaultdict(list)
         self.ma2 = defaultdict(list)
@@ -17,7 +26,7 @@ class Generator:
     @staticmethod
     def load(dest):
         return pickle.load(open(dest, "rb"))
-
+    
     def perturb_tokens(self, chance):
         num = (int)(len(self.ma1.keys())*chance)
         for x in range(0,num):
@@ -118,11 +127,27 @@ class Generator:
     
     def read(self, filename):
         temp = []
-        with open(filename) as f:
-            temp = get_tokens(f.read())
-            self.tokens.extend(temp)
+        if self.text:
+            temp = parser.parse_text(filename)
+            print "read tokens", temp
+
+        else:
+            temp = parser.parse_delim(filename)
+            print "read tokens", temp
+
+
+        self.tokens.extend(temp)
+        
+        print "self tokens", self.tokens
+
+
+        #with open(filename) as f:
+        #    temp = get_tokens(f.read())
+        #    self.tokens.extend(temp)
 
         tst, tm = create_matching(temp, 1)
+        if self.text == False:
+            self.start_tokens.extend(tst)
         self.m.update(tm)
         self.ma1.update(tm)
 
@@ -130,7 +155,8 @@ class Generator:
         self.ma2.update(tm)
 
         tst, tm = create_matching(temp, 3)
-        self.start_tokens.extend(remove_duds(tst))
+        if self.text:
+            self.start_tokens.extend(remove_duds(tst))
         self.ma3.update(tm)
     
     def reset(self):
@@ -150,6 +176,7 @@ class Generator:
         ma2 = self.ma2
         ma3 = self.ma3
         triple = self.start_tokens 
+            
 
         start = choice(triple)
         constructed = start
@@ -249,9 +276,13 @@ class Generator:
             logger.debug("Word is "+ word)
             state.add(word)
         logger.info(start)
-        logger.info(state.get_str())
+        if self.text:
+            logger.info(state.get_str())
+            constructed = state.get_str().strip() + "." #construct_sentences(self.start_tokens, self.m)
+        else:
+            logger.info(state.get_word())
+            constructed = state.get_word().strip() #construct_sentences(self.start_tokens, self.m)
 
-        constructed = state.get_str().strip() + "." #construct_sentences(self.start_tokens, self.m)
         self.prev.append(constructed)
         return constructed
 
