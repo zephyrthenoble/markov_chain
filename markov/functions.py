@@ -125,6 +125,9 @@ def create_matching(tokens, count):
 
     for token in tokens:
         t = token.split()
+        if len(t) == 1:
+            t = list(t[0])
+        print t
         if len(t) < count: continue
         #get the first and second words, to create a better matching
         state = [t[i] for i in range(0,count)]
