@@ -1,0 +1,2 @@
+average time:			10.1476599884
+average percent searched:	0.0477734279262

@@ -45,10 +45,11 @@ def main():
         plist = []
         print "Looking for", test,"out of", maxcount, "combinations (26^"+str(len(test))+")"
 	cores = multiprocessing.cpu_count()
+	tests = 50
         print "Cores", cores
 	if cores <=1:
 		cores = 2
-        for x in xrange(1000):
+        for x in xrange(tests):
             count = 0
             print "Test",x
             q = multiprocessing.Queue()
