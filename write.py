@@ -1,4 +1,3 @@
-
 import sys, getopt, pickle
 from markov.functions import create_matching
 from markov import generator

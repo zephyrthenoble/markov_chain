@@ -210,7 +210,7 @@ class Generator:
             state.add(word)
 
         constructed = state.get_word().strip() #construct_sentences(self.start_tokens, self.m)
-        self.prev.append(constructed)
+        #self.prev.append(constructed)
         return constructed
 
     def generate_sentence(self):

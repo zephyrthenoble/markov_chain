@@ -37,6 +37,7 @@ def main():
         plist = []
         print "Looking for", test,"out of", maxcount, "combinations (26^"+str(len(test))+")"
         for x in xrange(1000):
+            count = 0
             print "Test",x
 
         #with open("output/"+test+".txt", "w") as f:
