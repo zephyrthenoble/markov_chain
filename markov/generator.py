@@ -31,21 +31,21 @@ class Generator:
     
     def perturb_tokens(self, chance):
         num = (int)(len(self.ma1.keys())*chance)
-        for x in range(0,num):
+        for x in xrange(num):
             selected_element = choice(choice(self.ma1.values()))
             append_key = choice(self.ma1.keys())
             print repr(append_key), repr(selected_element)
             self.ma1[append_key].append(selected_element)
 
         num = (int)(len(self.ma2.keys())*chance)
-        for x in range(0,num):
+        for x in xrange(num):
             selected_element = choice(choice(self.ma2.values()))
             append_key = choice(self.ma2.keys())
             print repr(append_key), repr(selected_element)
             self.ma1[choice(self.ma2.keys())].append(selected_element)
 
         num = (int)(len(self.ma3.keys())*chance)
-        for x in range(0,num):
+        for x in xrange(num):
             selected_element = choice(choice(self.ma3.values()))
             append_key = choice(self.ma3.keys())
             print repr(append_key), repr(selected_element)
@@ -394,6 +394,6 @@ class Generator:
 
     def generate_sentences(self, count):
         sentences = ""
-        for x in range(0, count):
+        for x in xrange(count):
             sentences = sentences + "  "+self.generate_sentence()
         return sentences

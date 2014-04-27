@@ -136,7 +136,7 @@ def create_matching(tokens, count):
         constructed = " ".join(state)
         #start_tokens.append(first+' '+second)
         start_tokens.append(constructed.strip())
-        for index in range(count, len(t)):
+        for index in xrange(count, len(t)):
             word = t[index]
             while word.endswith('.') or word.endswith('?') or word.endswith('!'):
                 if len(word) < count:
@@ -146,7 +146,7 @@ def create_matching(tokens, count):
             constructed = " ".join(state)
             m[constructed.strip()].append(word)
             #prt(first+second+" "+token[index])
-            for i in range(0, len(state)-1):
+            for i in xrange(0, len(state)-1):
                 state[i] = state[i+1]
             state[-1] = word
             #first = second

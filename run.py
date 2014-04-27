@@ -1,4 +1,4 @@
-
+#! /usr/bin/env python
 import sys, getopt, pickle, logging
 from markov.functions import create_matching
 from markov.generator import Generator
@@ -21,7 +21,7 @@ def main():
     count = 0
     sentences = []
     if gen.text:
-        for x in range(0, 1000):
+        for x in xrange(1000):
             sentences.append(gen.generate_sentence())
         for elem in sorted(sentences):
             print elem
