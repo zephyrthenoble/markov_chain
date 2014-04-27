@@ -1,17 +1,25 @@
 #! /usr/bin/env python
-import sys, getopt, pickle, logging, time, multiprocessing, copy
+import sys, getopt, pickle, logging, time, multiprocessing, copy, signal
 from markov.functions import create_matching
 from markov.generator import Generator
 from random import choice
 from markov.state import State
 
+def signal_handler(signal, frame):
+	print("You pressed Ctrl+C")
+	for elem in processes:
+		elem.terminate()
+		elem.join()
+	sys.exit(0)
 
+processes = []
 test = "julia"
 if len(sys.argv) == 2:
     test = sys.argv[1]
 
 
 def main():
+    signal.signal(signal.SIGINT, signal_handler)
     #load a generator
     gen = Generator.load("dictionaries/peterpan.pickle")
     #get a sentence
@@ -36,15 +44,17 @@ def main():
         tlist = []
         plist = []
         print "Looking for", test,"out of", maxcount, "combinations (26^"+str(len(test))+")"
-        print "Cores", multiprocessing.cpu_count()
+	cores = multiprocessing.cpu_count()
+        print "Cores", cores
+	if cores <=1:
+		cores = 2
         for x in xrange(1000):
             count = 0
             print "Test",x
             q = multiprocessing.Queue()
             processes = []
             count = 0
-            for x in xrange(multiprocessing.cpu_count()):
-                tgen = copy.deepcopy(gen)
+            for x in xrange(cores - 1):
                 p = multiprocessing.Process(target = run, args=(gen, q))
                 processes.append(p)
             for elem in processes:
