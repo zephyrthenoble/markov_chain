@@ -133,9 +133,7 @@ def create_matching(tokens, count):
         state = [t[i] for i in range(0,count)]
         #first = t[0]
         #second = t[1]
-        constructed = ""
-        for elem in state:
-            constructed += elem + " "
+        constructed = " ".join(state)
         #start_tokens.append(first+' '+second)
         start_tokens.append(constructed.strip())
         for index in range(count, len(t)):
@@ -145,9 +143,7 @@ def create_matching(tokens, count):
                     break
                 #prt(word)
                 word = word[:-1].strip()
-            constructed = ""
-            for elem in state:
-                constructed += elem + " "
+            constructed = " ".join(state)
             m[constructed.strip()].append(word)
             #prt(first+second+" "+token[index])
             for i in range(0, len(state)-1):
@@ -155,9 +151,7 @@ def create_matching(tokens, count):
             state[-1] = word
             #first = second
             #second = t[index]
-        constructed = ""
-        for elem in state:
-            constructed += elem + " "
+        constructed = " ".join(state)
         m[constructed.strip()].append('\n')
 
     return (start_tokens, m)
