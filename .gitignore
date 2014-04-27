@@ -52,6 +52,6 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-*.txt
 *.pickle
 *.bak
+output/*.txt
