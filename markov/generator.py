@@ -172,7 +172,8 @@ class Generator:
         self.prev = []
 
     def generate_word(self):
-        ma1 = copy.deepcopy(self.ma1)
+        #ma1 = copy.deepcopy(self.ma1)
+        ma1 = self.ma1
         triple = self.start_tokens 
             
 
@@ -205,10 +206,6 @@ class Generator:
             one = state.get(1)
 
             word = choice(ma1.get(one, ["\n"]))
-            #if word in ma1[one]:
-            #    ma1[one].remove(word)
-            #    if len(ma1[one]) <=0:
-            #        del ma1[one]
             last_state = copy.deepcopy(state.state)
             state.add(word)
 
