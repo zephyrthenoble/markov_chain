@@ -16,11 +16,12 @@ def main():
         gen.read("corpus/shortpeterpan.txt")
         gen.perturb_tokens(.01)
         gen.create_ordered_paths()
+        gen.save("dictionaries/peterpan.pickle")
     else:
         gen = generator.word_generator()
         gen.read("corpus/passwords.txt")
         gen.perturb_tokens(.01)
-    gen.save("dictionaries/peterpan.pickle")
+        gen.save("dictionaries/passwords.pickle")
     sys.exit(0)
 
 if __name__ == "__main__":

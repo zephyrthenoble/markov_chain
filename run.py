@@ -44,11 +44,12 @@ def main():
         tlist = []
         plist = []
         print "Looking for", test,"out of", maxcount, "combinations (26^"+str(len(test))+")"
-	cores = multiprocessing.cpu_count()
-	tests = 50
+        cores = multiprocessing.cpu_count()
+        tests = 10
         print "Cores", cores
-	if cores <=1:
-		cores = 2
+        if cores <=1:
+            cores = 2
+
         for x in xrange(tests):
             count = 0
             print "Test",x

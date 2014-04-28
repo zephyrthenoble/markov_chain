@@ -397,3 +397,4 @@ class Generator:
         for x in xrange(count):
             sentences = sentences + "  "+self.generate_sentence()
         return sentences
+
