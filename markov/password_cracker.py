@@ -26,9 +26,10 @@ def crack(password, tests, num_processes, generator, verbose = False):
 
     for n in xrange(tests):
         processes = []
+        count = 0
+        print "Test",n
 
         q = multiprocessing.Queue()
-        print processes
 
         for x in xrange(num_processes):
             p = multiprocessing.Process(target = run, args=(generator, q))
@@ -39,7 +40,7 @@ def crack(password, tests, num_processes, generator, verbose = False):
 
         if verbose:
             t0 = time.time()
-            while q.get() != test:
+            while q.get() != password:
                 count+=1
                 if count % (count_index/100) == 0:
                     sys.stdout.write("\r%f%%" %((float)(count)/(float)(maxcount)))
@@ -49,18 +50,18 @@ def crack(password, tests, num_processes, generator, verbose = False):
             plist.append((float)(count)/(float)(maxcount))
             for elem in processes:
                 elem.terminate()
+            print
+            print count
 
         else:
             t0 = time.time()
-            while q.get() != test:
+            while q.get() != password:
                 count+=1
             t1 = time.time()
             tlist.append(t1-t0)
             plist.append((float)(count)/(float)(maxcount))
             for elem in processes:
                 elem.terminate()
-            print
-            print count
 
     average_time = sum(tlist)/len(tlist)
     average_percent = sum(plist)/len(plist)
@@ -79,5 +80,5 @@ def crack(password, tests, num_processes, generator, verbose = False):
             out = str(i) +"\t"+str(elem[0])+"\t"+str(elem[1])+"\n"
             f.write(out)
         f.write( "Average time:\t\t\t"+ str(average_time))
-        f.write("Average percent searched:\t", str(average_percent))
+        f.write("Average percent searched:\t"+ str(average_percent))
 
