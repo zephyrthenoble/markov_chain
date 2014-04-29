@@ -22,12 +22,16 @@ Text Generator
 --------------
 
 Execute
+``` bash
 python2 write.py
+```
 
 Enter the text you are parsing (text.txt)
 
 Then run
+``` bash
 python2 run.py
+```
 
 Enter the pickle you are using (text.pickle)
 
@@ -41,12 +45,15 @@ Warning: on a fast computer, it takes about 10 seconds to crack a 5 letter
 password.  Try small passwords and a small number of tests initially.
 
 Execute
+``` bash
 python2 write_pw.py
-
+```
 Enter the password file (passwords.txt)
 
 Then run
+``` bash
 python2 password_cracker.py
+```
 
 Enter the password you are trying to crack
 Enter the number of tests
