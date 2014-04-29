@@ -15,8 +15,48 @@ def run(gen, q):
     while True:
         q.put(gen.generate_word())
 
+def create_tree(depth, gen):
+    tree = Node("")
+
+    for elem in set(gen.ma1.keys()):
+        node = create_tree_helper(depth-1, elem, gen.ma1)
+        tree.add(1, node)
+        
+
+class Node:
+    def __init__(self, value):
+        self.nodes = []
+        self.value = value
+        self.size = 0
+    def add(c, elem):
+        self.size+=c
+        self.nodes.append(elem)
+    def __len__(self):
+        return self.size
+
+def create_tree_helper(depth, last, ma1):
+    if depth == 0:
+        leaf = Node("/n")
+        return leaf
+
+    tset = set(ma1[last])
+    node = Node(last)
+
+    for elem in tset:
+        inner = create_tree_helper(depth-1, elem, ma1)
+        node.add(ma1[last].count(elem), inner) 
+
+    return node
+
+
+
+
+
 def crack(password, tests, num_processes, generator, verbose = False):
     signal.signal(signal.SIGINT, signal_handler)
+
+    print create_tree(3, generator)
+    sys.exit(0)
     generator.min_size = len(password)
     generator.max_size = len(password)
     maxcount = 26**len(password)
@@ -30,6 +70,8 @@ def crack(password, tests, num_processes, generator, verbose = False):
         print "Test",n
 
         q = multiprocessing.Queue()
+
+        
 
         for x in xrange(num_processes):
             p = multiprocessing.Process(target = run, args=(generator, q))
