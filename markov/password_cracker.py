@@ -43,7 +43,7 @@ def crack(password, tests, num_processes, generator, verbose = False):
             while q.get() != password:
                 count+=1
                 if count % (count_index/100) == 0:
-                    sys.stdout.write("\r%f%%" %((float)(count)/(float)(maxcount)))
+                    sys.stdout.write("\r%f%%" %((float)(count)/(float)(maxcount)*100.0))
                     sys.stdout.flush()
             t1 = time.time()
             tlist.append(t1-t0)
