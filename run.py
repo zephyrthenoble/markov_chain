@@ -21,7 +21,10 @@ if len(sys.argv) == 2:
 def main():
     signal.signal(signal.SIGINT, signal_handler)
     #load a generator
-    gen = Generator.load("dictionaries/peterpan.pickle")
+    dic = raw_input("Enter your dictionary: ")
+    if dic == "":
+	    dic = "shortpeterpan.pickle"
+    gen = Generator.load("dictionaries/" + dic)
     #get a sentence
     print "A test output"
     print (gen.generate_sentence())
